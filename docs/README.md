@@ -1,10 +1,11 @@
 # Calendar
-Displays a calendar of the current month. Currently does not support command line arguments.
-Builds of previous iterations of the project are provided in `builds/`, note that they are compiled for Linux.
-To build the project at its current iteration, the makefile is located in `src/`.
+Displays a calendar of the current month. Currently does not support command line arguments and is limited to support on Linux systems.
+
+## Build Instructions
+To build the project, run `make` in the top-level directory where `makefile` is located.
 
 ### Planned features:
-- Command line support for arguments; specify date
+- Command line support for arguments; look up specific date
 - Better color scheme and readability
 
 ### Comments:
