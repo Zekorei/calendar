@@ -10,7 +10,6 @@
 #define DOW_HEADER "S  M  T  W  T  F  S"
 #define CALENDAR_WIDTH 20
 #define DAY_WIDTH 3
-#define DAY_FORMAT "%-*d"
 
 #define C_LBLUE "\033[1;34m"
 #define C_UNDERLINE "\033[4m"

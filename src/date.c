@@ -7,10 +7,10 @@
 #include"date.h"
 
 date_t *create_date(int day, int month, int year) {
-  date_t *date;
-  date = malloc(sizeof *date);
+  date_t *date = malloc(sizeof *date);
   if (date == NULL)
     return NULL;
+
   date->day = day;
   date->month = month;
   date->year = year;
@@ -33,15 +33,15 @@ void free_date(date_t *date) {
 
 
 int is_leap_year(date_t *date) {
-  char flag = 1;
-  if (date->month != 2) flag = 0;
+  char is_leap = 1;
+  if (date->month != 2) is_leap = 0;
 
   if (date->year % 100 == 0) {
-    if (date->year % 400 != 0) flag = 0;
-    if (date->year % 4 != 0) flag = 0;
+    if (date->year % 400 != 0) is_leap = 0;
+    if (date->year % 4 != 0) is_leap = 0;
   }
 
-  return flag;
+  return is_leap;
 }
 
 #endif

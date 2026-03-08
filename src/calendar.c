@@ -4,6 +4,7 @@
 #include<math.h>
 #include<stdio.h>
 #include<string.h>
+#include<stdlib.h>
 
 #include"calendar.h"
 #include"date.h"
@@ -18,9 +19,8 @@ int day_of_week(date_t *date) {
 }
 
 void print_calendar(date_t *date) {
-  date_t *first;
   char title[CALENDAR_WIDTH];
-  int padding, dow, current_dow;
+  int padding, current_dow;
   char *color;
 
   char *month_s = int_to_month[date->month-1];
@@ -33,14 +33,19 @@ void print_calendar(date_t *date) {
   printf(DOW_HEADER "\n");
 
   // print body
-  first = first_of_month(date);
-  dow = day_of_week(first);
-  free_date(first);
-  printf("%*c", DAY_WIDTH*dow, ' ');
+  date_t *first_day = first_of_month(date);
+  int dow = day_of_week(first_day);
+  free_date(first_day);
+
+  for (int i = 0; i < dow*DAY_WIDTH; i++) {
+    putchar(' ');
+  }
+
   for (int current_day = 1; current_day <= days; current_day++) {
+    fprintf(stderr, "current_day = %d\n", current_day);
     current_dow = (current_day + dow) % 7;
-    color = (current_dow <= 1 ? C_LBLUE : NULL);
-    color = (current_day == date->day ? C_BOLD C_LBLUE : color);
+//     color = (current_dow <= 1 ? C_LBLUE : NULL);
+    color = (current_day == date->day ? C_LBLUE : NULL);
     cprint_day(current_day, color);
 
     if (current_dow == 0)
@@ -51,11 +56,22 @@ void print_calendar(date_t *date) {
 }
 
 void cprint_day(int day, char *color) {
-  if (color == NULL)
-    printf(DAY_FORMAT, DAY_WIDTH, day);
-  else
-    printf("%s" DAY_FORMAT C_END, color, DAY_WIDTH, day);
+  if (color == NULL) {
+    printf("%-*d", DAY_WIDTH, day);
+  } else {
+    size_t fday_buffer = strlen(color) + 20;
+    char *fday = malloc(fday_buffer);
+
+    if (fday == NULL) {
+      fprintf(stderr, "cprint_day: malloc() error\n");
+      return;
+    }
+
+    snprintf(fday, fday_buffer, "%s%d%s", color, day, C_END);
+    int formatting_width = strlen(color) + strlen(C_END) + DAY_WIDTH;
+    printf("%-*s", formatting_width, fday);
+    free(fday);
+  }
 }
 
 #endif
-
